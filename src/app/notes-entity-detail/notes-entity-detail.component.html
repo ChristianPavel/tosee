@@ -1,0 +1,38 @@
+<div *ngIf="note">
+  <h2>{{note.name | uppercase}} Details</h2>
+
+  <div>
+    <label for="note-name">Name:</label>
+    <input id="note-name" [(ngModel)]="note.name" placeholder="name">
+  </div><br>
+  <div>
+    <label for="note-description">Description:</label>
+    <input id="note-description" [(ngModel)]="note.description" placeholder="name">
+  </div><br>
+  <div>
+    <label for="note-comments">Comments:</label>
+    <input id="note-comments" [(ngModel)]="note.comments" placeholder="name">
+  </div><br>
+
+  <div *ngIf="note.done; else elseBlock">
+    <input type="checkbox" checked (change)="changeStatus()"> Done<br>
+  </div>
+  <ng-template #elseBlock>
+    <input type="checkbox" (change)="changeStatus()"> Done<br>
+  </ng-template>
+
+
+
+  <span class="badge"> {{note.created}}</span><br>
+  <div>
+    <label for="note-dueDate">dueDate:</label>
+    <input id="note-dueDate" [(ngModel)]="note.dueDate" placeholder="name">
+  </div><br>
+  <span class="badge"> {{note.finished}}</span><br>
+
+
+
+  <button type="button" (click)="delete()">delete</button>
+  <button type="button" (click)="update()">save</button>
+  <button type="button" (click)="goBack()">go back</button>
+</div>

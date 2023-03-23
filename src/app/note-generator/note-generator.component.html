@@ -1,0 +1,14 @@
+<div>
+  <label for="new-note-name">Note name:</label>
+  <input id="new-note-name" #noteName/>
+  <label for="new-note-description">Note description:</label>
+  <input id="new-note-description" #noteDescription/>
+  <label for="new-note-dueDate">Note dueDate:</label>
+  <input id="new-note-dueDate" #noteDueDate/>
+  <button type="button" class="add-button" (click)="createNote(noteName.value, noteDescription.value, noteDueDate.value);
+    noteName.value=''"> <!--clears the input field after usage-->
+    Create New Note
+  </button>
+  <button type="button" (click)="goBack()">go back</button>
+</div>
+
