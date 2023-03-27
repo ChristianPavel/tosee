@@ -13,7 +13,7 @@ export interface Note{
 
   created: string;
 
-  dueDate?: string;
+  dueDate: string;
 
   finished?: string;
 }

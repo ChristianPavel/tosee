@@ -4,3 +4,71 @@
     {{note.name}}
   </a>
 </div>
+
+
+<button mat-flat-button type="button" (click)="getDueDateSortedNotes()">Sorted by due Date</button>
+<button mat-flat-button type="button" (click)="getCreatedSortedNotes()">Sorted by Created</button>
+
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="tableData">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef > Name</th>
+      <td mat-cell *matCellDef="let note" routerLink="/notes/info/{{note.id}}">
+        <a mat-button routerLink="/notes/info/{{note.id}}">
+          <span class="badge"> {{note.name}}</span>
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef > Description</th>
+      <td mat-cell *matCellDef="let note" routerLink="/notes/info/{{note.id}}">
+        <a mat-button routerLink="/notes/info/{{note.id}}">
+          <span class="badge"> {{note.description}}</span>
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef> Created On</th>
+      <td mat-cell *matCellDef="let note" routerLink="/notes/info/{{note.id}}">
+        <a mat-button routerLink="/notes/info/{{note.id}}">
+          <span class="badge"> {{note.created}}</span>
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dueDate">
+      <th mat-header-cell *matHeaderCellDef> Due Date</th>
+      <td mat-cell *matCellDef="let note" routerLink="/notes/info/{{note.id}}">
+        <a mat-button routerLink="/notes/info/{{note.id}}">
+          <span class="badge"> {{note.dueDate}}</span>
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="done">
+      <th mat-header-cell *matHeaderCellDef> Done</th>
+      <td mat-cell *matCellDef="let note">
+        <div *ngIf="note.done; else elseBlock">
+          <label for="checkbox{{note.id}}">
+            <input type="checkbox" id="checkbox{{note.id}} " checked [disabled]="true"> Done
+          </label>
+        </div>
+        <ng-template #elseBlock>
+          <label for="checkbox{{note.id}}a">
+            <input type="checkbox" id="checkbox{{note.id}}a"  [disabled]="true"> Done
+          </label>
+        </ng-template>
+      </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+
+</div>

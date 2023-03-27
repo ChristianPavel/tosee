@@ -1,7 +1,9 @@
 <h1>{{title}}</h1>
 <nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/notes">All Notes</a>
-  <a routerLink="/notes/create">Create New Note</a>
+  <a mat-raised-button color="primary" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a mat-raised-button color="primary" routerLink="/notes">All Notes</a>
+  <a mat-raised-button color="primary" routerLink="/notes/create">Create New Note</a>
 </nav>
+<br>
+
 <router-outlet></router-outlet>

@@ -1,26 +1,17 @@
-<h2> My ToDo List </h2>
+<h2> My ToDo List: Finished Notes </h2>
 
-<h3> Finished Notes </h3>
+
 
 <nav>
-  <a routerLink="/notes/pending">Pending Notes</a>
-  <a routerLink="/notes">All Notes</a>
+  <a mat-fab extended color="primary" routerLink="/notes/pending">Pending Notes</a>
+  <a mat-fab extended color="primary" routerLink="/notes">All Notes</a>
 </nav>
 
-<ul class="notes">
-  <li *ngFor="let note of notes">
-    <a routerLink="/notes/info/{{note.id}}">
-      <span class="badge"> {{note.name}}</span>
-      {{note.description}}
-      {{note.created}}
-      {{note.dueDate}}
-    </a>
-    <div *ngIf="note.done; else elseBlock">
-      <input type="checkbox" checked (change)="changeStatus(note)"> Done<br>
-    </div>
-    <ng-template #elseBlock>
-      <input type="checkbox" (change)="changeStatus(note)"> Done<br>
-    </ng-template>
-    <button type="button" class="delete" title="delete note" (click)="delete(note)">x</button>
-  </li>
-</ul>
+<br>
+<br>
+
+<app-notes-table
+  [notes]="notes"
+  (toggleDone)="changeStatus($event)"
+  (deleteClicked)="delete($event)">
+</app-notes-table>

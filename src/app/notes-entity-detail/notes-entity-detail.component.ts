@@ -1,33 +1,50 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import { Location} from "@angular/common";
+import {Location} from "@angular/common";
 
 import {Note} from "../model/note";
-import { NoteService} from "../note.service";
+import {NoteService} from "../note.service";
+import {FormControl} from "@angular/forms";
+import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material/core";
+import {Observable} from "rxjs";
+
 
 @Component({
   selector: 'app-notes-entity-detail',
   templateUrl: './notes-entity-detail.component.html',
   styleUrls: ['./notes-entity-detail.component.css']
 })
-export class NotesEntityDetailComponent implements OnInit{
-  @Input() note?: Note;
+export class NotesEntityDetailComponent implements OnInit {
+  note?: Note;
+
+  currentDate: Date = new Date();
+  displayedDate: FormControl = new FormControl(new Date(""));
+
+  currentDateString: string = "";
+
+  constructor(private _adapter: DateAdapter<any>,
+              @Inject(MAT_DATE_LOCALE) private _locale: string,
+              private location: Location,
+              private activatedRoute: ActivatedRoute,
+              private noteService: NoteService) {
+  }
 
   ngOnInit() {
     this.getNote();
-  }
-
-  constructor(private location: Location, private activatedRoute: ActivatedRoute, private noteService: NoteService) {
-  }
-
-  changeStatus(){
-    if (this.note)
-    this.note.done = !this.note.done;
+    this._adapter.setLocale('fr');
   }
 
   getNote(): void {
     const id = Number((this.activatedRoute.snapshot.paramMap.get('id')));
-    this.noteService.getNote(id).subscribe(note => this.note = note);
+    this.noteService.getNote(id).subscribe(note => {
+      this.note = note
+      this.setCalenderDueDate();
+    });
+  }
+
+  changeStatus() {
+    if (this.note)
+      this.note.done = !this.note.done;
   }
 
   delete(): void {
@@ -37,16 +54,53 @@ export class NotesEntityDetailComponent implements OnInit{
     }
 
   }
-
   goBack(): void {
     this.location.back();
   }
 
+  clearDueDate(): void {
+    if (this.note){
+      this.displayedDate = new FormControl(new Date(""));
+      this.note.dueDate = "";
+    }
+
+  }
+  setCalenderDueDate(): void {
+    if (this.note){
+      if (this.note.dueDate === null){
+        this.currentDate = new Date("");
+        this.displayedDate = new FormControl(new Date(""));
+      } else {
+      this.currentDate = new Date(this.note.dueDate);
+      this.displayedDate = new FormControl(this.currentDate);
+      }
+    }
+  }
+  prepareSelectedDate(event: { value: Date; }): void {
+    this.currentDate = event.value;
+    const placeholer: Date = this.currentDate;
+    this.currentDateString = placeholer.toLocaleDateString();
+  }
+
   update(): void {
     if (this.note) {
+
+      if (this.currentDateString !== "") {
+
+         const dateComponents = this.currentDateString.split(".");
+
+        for (let i = 0; i < 2; i++) {
+          if (dateComponents[i].length === 1) {
+            dateComponents[i] = "0" + dateComponents[i]
+          }
+        }
+        this.note.dueDate = dateComponents[2] + "-" + dateComponents[1] + "-" + dateComponents[0];
+      }
+
+
       const id = Number(this.activatedRoute.snapshot.paramMap.get('id'))
       this.noteService.update(this.note, id)
         .subscribe(() => this.goBack());
     }
-}
+  }
 }
