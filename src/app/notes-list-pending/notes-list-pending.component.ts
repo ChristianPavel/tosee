@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NotesListComponent} from "../notes-list/notes-list.component";
 import { NoteService} from "../note.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {Note} from "../model/note";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+
 
 @Component({
   selector: 'app-notes-list-pending',
@@ -16,18 +14,11 @@ export class NotesListPendingComponent extends NotesListComponent{
   }
 
   override ngOnInit() {
-    this.getDueDateSortedNotes();
+    this.getPendingNotes();
   }
 
-  override getCreatedSortedNotes(){
-    this.noteService.getPendingNotes().subscribe(notes => {
-      this.notes = this.sortByCreatedDate(notes);
-    });
+  getPendingNotes() {
+    this.noteService.getPendingNotes().subscribe(notes => this.notes = notes);
   }
 
-  override getDueDateSortedNotes(){
-    this.noteService.getPendingNotes().subscribe(notes => {
-      this.notes = this.sortByDueDate(notes);
-    });
-  }
 }

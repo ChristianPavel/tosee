@@ -21,7 +21,8 @@ export class DashboardComponent implements OnInit {
 
   filter: boolean = false;
 
-  constructor(private noteService: NoteService, private _liveAnnouncer: LiveAnnouncer) {
+  constructor(private noteService: NoteService,
+              private _liveAnnouncer: LiveAnnouncer) {
   }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -30,53 +31,6 @@ export class DashboardComponent implements OnInit {
     this.getDashboardNotes();
 
   }
-
-
-  /*sortByCreatedDate(notes: Note[]): Note[] {
-    notes.sort((a, b) => {
-        if (a.created < b.created) {
-          return -1;
-        } else if (a.created > b.created) {
-          return 1;
-        }
-        return 0;
-      }
-    );
-    return notes;
-  }*/
-
-  /*sortByDueDate(notes: Note[]): Note[] {
-    notes.forEach((note) => {
-      if (note.dueDate === null) {
-        note.dueDate = "";
-      }
-
-    })
-
-    notes.sort((a, b) => {
-        const first = a.dueDate;
-        const second = b.dueDate;
-
-        if (first && second === "") {
-          return 0;
-        }
-        if (first === "") {
-          return 1;
-        }
-        if (second === "") {
-          return -1;
-        }
-
-        if (first < second) {
-          return -1;
-        } else if (first > second) {
-          return 1;
-        }
-        return 0;
-      }
-    );
-    return notes;
-  }*/
 
   setTable(): void {
     if (this.filter) {
@@ -102,18 +56,6 @@ export class DashboardComponent implements OnInit {
               break;
             case 'description':
               comparatorResult = this.sortText(a.description, b.description);
-              console.log(`Value ${a.description} goes against ${b.description} and the result is: ${comparatorResult}` )
-              console.log(a);
-              console.log(b);
-              /*if (a.description && b.description === null){
-                comparatorResult = 0;
-              } else  if (a.description === null){
-                comparatorResult = 1;
-              } else  if (b.description === null){
-                comparatorResult = -1;
-              } else {
-                comparatorResult = a.description.toLowerCase().localeCompare(b.description.toLowerCase());
-              }*/
               break;
             case 'created':
               comparatorResult = this.sortDates(a.created, b.created, false);
@@ -156,7 +98,6 @@ export class DashboardComponent implements OnInit {
       return -1;
     }
     if (reverse) {
-      /*return (first.localeCompare(second) * -1);*/
       if (first < second) {
         return 1;
       } else if (first > second) {
@@ -165,16 +106,13 @@ export class DashboardComponent implements OnInit {
       return 0;
 
     } else {
-      /*return (first.localeCompare(second));*/
       if (first < second) {
         return -1;
       } else if (first > second) {
         return 1;
       }
       return 0;
-
     }
-
   }
   prepareTableData(notes: Note[]): void {
     this.notes = notes;
@@ -194,23 +132,11 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  /*getCreatedSortedNotes() {
-    this.noteService.getDashboardNotes().subscribe(notes => {
-      this.prepareTableData(this.sortByCreatedDate(notes));
-    });
-  }*/
-
   getDashboardNotes() {
     this.noteService.getDashboardNotes().subscribe( notes => {
       this.prepareTableData(notes);
     })
   }
-
-  /*getDueDateSortedNotes() {
-    this.noteService.getDashboardNotes().subscribe(notes => {
-      this.prepareTableData(this.sortByDueDate(notes));
-    });
-  }*/
 
   switchFilter(): void {
     this.filter = !this.filter;

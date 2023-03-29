@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NotesListComponent} from "../notes-list/notes-list.component";
 import { NoteService} from "../note.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {Note} from "../model/note";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
+
 
 @Component({
   selector: 'app-notes-list-finished',
@@ -17,22 +15,10 @@ export class NotesListFinishedComponent extends NotesListComponent{
   }
 
   override ngOnInit() {
-    this.getCreatedSortedNotes();
+    this.getFinishedNotes();
   }
 
-  override getCreatedSortedNotes(){
-    this.noteService.getFinishedNotes().subscribe(notes => {
-      this.notes = this.sortByCreatedDate(notes);
-    });
-  }
-  override getDueDateSortedNotes(){
-    this.noteService.getFinishedNotes().subscribe(notes => {
-      this.notes = this.sortByDueDate(notes);
-    });
-  }
-  override getFinishedSortedNotes() {
-    this.noteService.getFinishedNotes().subscribe(notes => {
-      this.notes = this.sortByFinished(notes);
-    });
+  getFinishedNotes() {
+    this.noteService.getFinishedNotes().subscribe(notes => this.notes = notes);
   }
 }
