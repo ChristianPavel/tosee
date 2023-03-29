@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogDeleteConfirm} from "../dialog-delete-confirm/dialog-delete-confirm.component";
 import {MatSort, Sort} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {SortService} from "../sort-service.service";
 
 @Component({
   selector: 'app-notes-table',
@@ -23,6 +24,7 @@ export class NotesTableComponent implements OnChanges {
 
   constructor(public dialog: MatDialog,
               private _liveAnnouncer: LiveAnnouncer,
+              private sortService: SortService,
               ) {
   }
 
@@ -38,7 +40,7 @@ export class NotesTableComponent implements OnChanges {
 
     this.tableData = new MatTableDataSource(this.notes);
     this.pagination();
-    this.tableData.sortData = this.sortData();
+    this.tableData.sortData = this.sortService.sortData();
     this.tableData.sort = this.sort;
   }
 
@@ -75,76 +77,6 @@ export class NotesTableComponent implements OnChanges {
       this._liveAnnouncer.announce(`Sorted ${event.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-
-  sortData(){
-    return (items: Note[], sort: MatSort): Note[] => {
-      if (!sort.active || sort.direction === '') {
-        return items;
-      }
-      return items.sort((a: Note, b: Note) => {
-
-        let comparatorResult = 0;
-        let order = false;
-        if (sort.direction == 'desc'){
-          order = true;
-        }
-        switch (sort.active) {
-          case 'name':
-            comparatorResult = a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-            break;
-          case 'description':
-            comparatorResult = this.sortText(a.description, b.description, order);
-            break;
-          case 'created':
-            comparatorResult = this.sortDates(a.created, b.created, order);
-            break;
-          case 'dueDate':
-            comparatorResult = this.sortDates(a.dueDate, b.dueDate, order);
-            break;
-          case 'finished':
-            comparatorResult = this.sortDates(a.finished, b.finished, !order);
-
-            break;
-          default:
-            comparatorResult = a.name.localeCompare(b.name);
-            break;
-        }
-        return comparatorResult;
-      });
-    };
-  }
-  sortText(a: string, b: string, reverse: boolean) {
-    if (a === "" && b === ""){
-      return 0;
-    } else  if (a === ""){
-      return 1;
-    } else  if (b === ""){
-      return -1;
-    } else {
-      if (reverse){
-        return b.toLowerCase().localeCompare(a.toLowerCase());
-      } else {
-      return a.toLowerCase().localeCompare(b.toLowerCase());
-      }
-    }
-  }
-  sortDates(first: string, second: string, reverse: boolean): number {
-    if (first === null && second === null ) {
-      return 0;
-    }
-    if (first === null) {
-      return 1;
-    }
-    if (second === null) {
-      return -1;
-    }
-    if (reverse){
-      return second.toLowerCase().localeCompare(first.toLowerCase());
-    } else {
-      return first.toLowerCase().localeCompare(second.toLowerCase());
     }
   }
 

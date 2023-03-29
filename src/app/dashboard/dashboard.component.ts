@@ -4,6 +4,7 @@ import {NoteService} from "../note.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
+import {SortService} from "../sort-service.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ export class DashboardComponent implements OnInit {
   filter: boolean = false;
 
   constructor(private noteService: NoteService,
+              private sortService: SortService,
               private _liveAnnouncer: LiveAnnouncer) {
   }
 
@@ -38,82 +40,10 @@ export class DashboardComponent implements OnInit {
     } else {
       this.tableData = new MatTableDataSource(this.notes);
     }
-    this.tableData.sortData = this.sortData()
+    this.tableData.sortData = this.sortService.sortData();
     this.tableData.sort = this.sort;
   }
 
-// custom sort function
-  sortData() {
-    let sortFunction =
-      (items: Note[], sort: MatSort): Note[] =>  {
-        if (!sort.active || sort.direction === '') {
-          return items;
-        }  return items.sort((a: Note, b: Note) => {
-          let comparatorResult = 0;
-          switch (sort.active) {
-            case 'name':
-              comparatorResult = a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-              break;
-            case 'description':
-              comparatorResult = this.sortText(a.description, b.description);
-              break;
-            case 'created':
-              comparatorResult = this.sortDates(a.created, b.created, false);
-              break;
-            case 'dueDate':
-              comparatorResult = this.sortDates(a.dueDate, b.dueDate, false);
-              break;
-            case 'finished':
-              comparatorResult = this.sortDates(a.finished, b.finished, true);
-
-              break;
-            default:
-              comparatorResult = a.name.localeCompare(b.name);
-              break;
-          }
-          return comparatorResult * (sort.direction == 'asc' ? 1 : -1);
-        });
-      }; return sortFunction;
-  }
-
-  sortText(a: string, b: string) {
-    if (a === "" && b === ""){
-       return 0;
-    } else  if (a === ""){
-      return 1;
-    } else  if (b === ""){
-      return -1;
-    } else {
-      return a.toLowerCase().localeCompare(b.toLowerCase());
-    }
-  }
-  sortDates(first: string, second: string, reverse: boolean): number {
-    if (first === null && second === null ) {
-      return 0;
-    }
-    if (first === null) {
-      return 1;
-    }
-    if (second === null) {
-      return -1;
-    }
-    if (reverse) {
-      if (first < second) {
-        return 1;
-      } else if (first > second) {
-        return -1;
-      }
-      return 0;
-
-    } else {
-      if (first < second) {
-        return -1;
-      } else if (first > second) {
-        return 1;
-      }
-      return 0;
-    }
-  }
   prepareTableData(notes: Note[]): void {
     this.notes = notes;
     this.unfinishedNotes = [];
