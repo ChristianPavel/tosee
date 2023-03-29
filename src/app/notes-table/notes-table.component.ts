@@ -38,7 +38,7 @@ export class NotesTableComponent implements OnChanges {
 
     this.tableData = new MatTableDataSource(this.notes);
     this.pagination();
-    this.tableData.sortData = this.sortData()
+    this.tableData.sortData = this.sortData();
     this.tableData.sort = this.sort;
   }
 
@@ -78,41 +78,45 @@ export class NotesTableComponent implements OnChanges {
     }
   }
 
-  // custom sort function
-  sortData() {
+
+  sortData(){
     return (items: Note[], sort: MatSort): Note[] => {
       if (!sort.active || sort.direction === '') {
         return items;
       }
       return items.sort((a: Note, b: Note) => {
+
         let comparatorResult = 0;
+        let order = false;
+        if (sort.direction == 'desc'){
+          order = true;
+        }
         switch (sort.active) {
           case 'name':
             comparatorResult = a.name.toLowerCase().localeCompare(b.name.toLowerCase());
             break;
           case 'description':
-            comparatorResult = this.sortText(a.description, b.description);
+            comparatorResult = this.sortText(a.description, b.description, order);
             break;
           case 'created':
-            comparatorResult = this.sortDates(a.created, b.created, false);
+            comparatorResult = this.sortDates(a.created, b.created, order);
             break;
           case 'dueDate':
-            comparatorResult = this.sortDates(a.dueDate, b.dueDate, false);
+            comparatorResult = this.sortDates(a.dueDate, b.dueDate, order);
             break;
           case 'finished':
-            comparatorResult = this.sortDates(a.finished, b.finished, true);
+            comparatorResult = this.sortDates(a.finished, b.finished, !order);
 
             break;
           default:
             comparatorResult = a.name.localeCompare(b.name);
             break;
         }
-        return comparatorResult * (sort.direction == 'asc' ? 1 : -1);
+        return comparatorResult;
       });
     };
   }
-
-  sortText(a: string, b: string) {
+  sortText(a: string, b: string, reverse: boolean) {
     if (a === "" && b === ""){
       return 0;
     } else  if (a === ""){
@@ -120,7 +124,11 @@ export class NotesTableComponent implements OnChanges {
     } else  if (b === ""){
       return -1;
     } else {
+      if (reverse){
+        return b.toLowerCase().localeCompare(a.toLowerCase());
+      } else {
       return a.toLowerCase().localeCompare(b.toLowerCase());
+      }
     }
   }
   sortDates(first: string, second: string, reverse: boolean): number {
@@ -133,21 +141,10 @@ export class NotesTableComponent implements OnChanges {
     if (second === null) {
       return -1;
     }
-    if (reverse) {
-      if (first < second) {
-        return 1;
-      } else if (first > second) {
-        return -1;
-      }
-      return 0;
-
+    if (reverse){
+      return second.toLowerCase().localeCompare(first.toLowerCase());
     } else {
-      if (first < second) {
-        return -1;
-      } else if (first > second) {
-        return 1;
-      }
-      return 0;
+      return first.toLowerCase().localeCompare(second.toLowerCase());
     }
   }
 
