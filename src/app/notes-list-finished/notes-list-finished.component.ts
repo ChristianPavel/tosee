@@ -25,4 +25,14 @@ export class NotesListFinishedComponent extends NotesListComponent{
       this.notes = this.sortByCreatedDate(notes);
     });
   }
+  override getDueDateSortedNotes(){
+    this.noteService.getFinishedNotes().subscribe(notes => {
+      this.notes = this.sortByDueDate(notes);
+    });
+  }
+  override getFinishedSortedNotes() {
+    this.noteService.getFinishedNotes().subscribe(notes => {
+      this.notes = this.sortByFinished(notes);
+    });
+  }
 }

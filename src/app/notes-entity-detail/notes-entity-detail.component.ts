@@ -57,28 +57,31 @@ export class NotesEntityDetailComponent implements OnInit {
     }
 
   }
+
   goBack(): void {
     this.location.back();
   }
 
   clearDueDate(): void {
-    if (this.note){
+    if (this.note) {
       this.displayedDate = new FormControl(new Date(""));
       this.note.dueDate = "";
     }
 
   }
+
   setCalenderDueDate(): void {
-    if (this.note){
-      if (this.note.dueDate === null){
+    if (this.note) {
+      if (this.note.dueDate === null) {
         this.currentDate = new Date("");
         this.displayedDate = new FormControl(new Date(""));
       } else {
-      this.currentDate = new Date(this.note.dueDate);
-      this.displayedDate = new FormControl(this.currentDate);
+        this.currentDate = new Date(this.note.dueDate);
+        this.displayedDate = new FormControl(this.currentDate);
       }
     }
   }
+
   prepareSelectedDate(event: { value: Date; }): void {
     this.currentDate = event.value;
     const placeholer: Date = this.currentDate;
@@ -89,9 +92,7 @@ export class NotesEntityDetailComponent implements OnInit {
     if (this.note) {
 
       if (this.currentDateString !== "") {
-
-         const dateComponents = this.currentDateString.split(".");
-
+        const dateComponents = this.currentDateString.split(".");
         for (let i = 0; i < 2; i++) {
           if (dateComponents[i].length === 1) {
             dateComponents[i] = "0" + dateComponents[i]
@@ -99,8 +100,6 @@ export class NotesEntityDetailComponent implements OnInit {
         }
         this.note.dueDate = dateComponents[2] + "-" + dateComponents[1] + "-" + dateComponents[0];
       }
-
-
       const id = Number(this.activatedRoute.snapshot.paramMap.get('id'))
       this.noteService.update(this.note, id)
         .subscribe(() => this.goBack());
@@ -112,7 +111,7 @@ export class NotesEntityDetailComponent implements OnInit {
       width: '250px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data:{
+      data: {
         message: 'Are you sure you want to delete?',
         buttonText: {
           ok: 'Delete',

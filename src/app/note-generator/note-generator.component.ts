@@ -20,16 +20,16 @@ export class NoteGeneratorComponent implements OnInit{
               @Inject(MAT_DATE_LOCALE) private _locale: string, private location: Location, private noteService: NoteService) {
   }
 
-  currentDate: Date = new Date();
-
   displayedDate: FormControl = new FormControl(new Date(""));
+
+  currentDate: Date = new Date();
 
   currentDateString: string = "";
 
   dueDate: string = "";
 
   ngOnInit(){
-    this._adapter.setLocale('fr');
+    this._adapter.setLocale('ger');
   }
 
   clearDueDate(): void {
@@ -39,9 +39,10 @@ export class NoteGeneratorComponent implements OnInit{
 
     prepareSelectedDate(event: { value: Date; }): void {
       this.currentDate = event.value;
-      const placeholer: Date = this.currentDate;
-    this.currentDateString = placeholer.toLocaleDateString();
+      const placeholder: Date = this.currentDate;
+    this.currentDateString = placeholder.toLocaleDateString();
   }
+
 
   createNote(name: string, description: string): void {
     name = name.trim();

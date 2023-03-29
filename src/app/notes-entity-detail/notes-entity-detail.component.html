@@ -8,19 +8,16 @@
       <input matInput [(ngModel)]="note.name"/>
     </mat-form-field>
   </div>
-  <br>
+
 
   <div class="tuggedIn">
-
     <mat-checkbox id="checkbox{{note.id}}" [checked]="note.done" (change)="changeStatus()">
       Done
     </mat-checkbox>
-
-
     <br>
     <br>
     <mat-form-field  appearance="fill">
-      <mat-label>Not was created on</mat-label>
+      <mat-label>Note was created on</mat-label>
       <input matInput disabled [(ngModel)]="note.created"/>
     </mat-form-field>
     <br>

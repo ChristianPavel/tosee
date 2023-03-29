@@ -15,7 +15,7 @@ export class NoteService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Basic ' + btoa('user:password')
+      'Authorization': 'Basic ' + btoa('XQVpGsEAR9F5hH:mDEujrr4qbXG7h')
     })
 
   };
@@ -42,7 +42,7 @@ export class NoteService {
         done: note.done,
         dueDate: note.dueDate
       }
-      return this.http.patch<Note>(`${environment.api}/info/${id}`, transferNote, this.httpOptions)
+      return this.http.patch<Note>(`${environment.api}/${id}`, transferNote, this.httpOptions)
    }
   //
    addNote(name: string, description: string, dueDate: string): Observable<Note> {
@@ -55,23 +55,23 @@ export class NoteService {
    }
 
    deleteNote(id: number): Observable<Note>{
-      return this.http.delete<Note>(`${environment.api}/info/${id}`, this.httpOptions)
+      return this.http.delete<Note>(`${environment.api}/${id}`, this.httpOptions)
    }
 
   getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(`${environment.api}`, this.httpOptions);
+    return this.http.get<Note[]>(`${environment.api}?status=`, this.httpOptions);
   }
 
    getNote(id: number): Observable<Note> {
-      return this.http.get<Note>(`${environment.api}/info/${id}`, this.httpOptions)
+      return this.http.get<Note>(`${environment.api}/${id}`, this.httpOptions)
    }
 
   getPendingNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(`${environment.api}/pending`, this.httpOptions);
+    return this.http.get<Note[]>(`${environment.api}?status=pending`, this.httpOptions);
   }
 
   getFinishedNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>(`${environment.api}/finished`, this.httpOptions);
+    return this.http.get<Note[]>(`${environment.api}?status=finished`, this.httpOptions);
   }
 
   getDashboardNotes(): Observable<Note[]> {
