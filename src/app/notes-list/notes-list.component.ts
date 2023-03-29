@@ -64,9 +64,9 @@ export class NotesListComponent implements OnInit {
   }
 
   sortByFinished(notes: Note[]): Note[] {
-    notes.forEach((note) => {
+    /*notes.forEach((note) => {
       note.finished = this.fillDate(note.finished);
-    })
+    })*/
     notes.sort((a, b) => {
         return this.sortDates(a.finished, b.finished, true);
       }
@@ -76,9 +76,9 @@ export class NotesListComponent implements OnInit {
 
   sortByDueDate(notes: Note[]): Note[] {
 
-    notes.forEach((note) => {
+    /*notes.forEach((note) => {
       note.dueDate = this.fillDate(note.dueDate);
-    })
+    })*/
 
     notes.sort((a, b) => {
         return this.sortDates(a.dueDate, b.dueDate, false);
@@ -97,13 +97,13 @@ export class NotesListComponent implements OnInit {
   sortDates(first: string, second: string, reverse: boolean): number {
     const a = first;
     const b = second;
-    if (first && second === "") {
+    if (first && second === null) {
       return 0;
     }
-    if (first === "") {
+    if (first === null) {
       return 1;
     }
-    if (second === "") {
+    if (second === null) {
       return -1;
     }
     if (reverse) {

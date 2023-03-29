@@ -5,9 +5,9 @@ export interface Note{
 
   name: string;
 
-  description?: string;
+  description: string;
 
-  comments?: string;
+  comments: string;
 
   done: boolean;
 

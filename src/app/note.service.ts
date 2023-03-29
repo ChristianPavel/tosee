@@ -26,11 +26,7 @@ export class NoteService {
   }
 
    changeStatus(note: Note): Observable<Note> {
-     const transferNote: TransferNote = {
-       id: note.id,
-       name: note.name,
-     }
-    return this.http.patch<Note>(`${environment.api}`, transferNote, this.httpOptions)
+    return this.http.patch<Note>(`${environment.api}`, note.id, this.httpOptions)
    }
   //
    update(note: Note, id: number): Observable<Note> {
