@@ -3,46 +3,71 @@
   <h2>{{note.name | uppercase}} Details</h2>
 
   <div>
-    <label for="note-name">Name:</label>
-    <input id="note-name" [(ngModel)]="note.name" placeholder="name">
-  </div><br>
-  <div>
-    <label for="note-description">Description:</label>
-    <input id="note-description" [(ngModel)]="note.description" placeholder="name">
-  </div><br>
-  <div>
-    <label for="note-comments">Comments:</label>
-    <input id="note-comments" [(ngModel)]="note.comments" placeholder="name">
-  </div><br>
-
-  <div *ngIf="note.done; else elseBlock">
-    <label for="checkbox{{note.id}}">
-      <input type="checkbox" id="checkbox{{note.id}}" checked (change)="changeStatus()"> Done
-    </label>
+    <mat-form-field class="sizeable" appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="note.name"/>
+    </mat-form-field>
   </div>
-  <ng-template #elseBlock>
-    <label for="checkbox{{note.id}}a">
-      <input type="checkbox" id="checkbox{{note.id}}a"  (change)="changeStatus()"> Done
-    </label>
-  </ng-template>
-
   <br>
-  <span class="badge"> {{note.created}}</span><br>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" [formControl]="this.displayedDate"
+  <div class="tuggedIn">
+
+    <mat-checkbox id="checkbox{{note.id}}" [checked]="note.done" (change)="changeStatus()">
+      Done
+    </mat-checkbox>
+
+
+    <br>
+    <br>
+    <mat-form-field  appearance="fill">
+      <mat-label>Not was created on</mat-label>
+      <input matInput disabled [(ngModel)]="note.created"/>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Choose Due Date</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="this.displayedDate"
              (dateChange)="prepareSelectedDate($event)">
-    <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <button mat-stroked-button type="button" (click)="clearDueDate()">Clear current due Date</button>
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-stroked-button type="button" class="clearButton" (click)="clearDueDate()">Clear current due Date</button>
+    <br>
+    <br>
 
-  <span class="badge"> {{note.finished}}</span><br>
+    <mat-form-field  appearance="fill">
+      <mat-label>Note was finished on</mat-label>
+      <input matInput disabled [(ngModel)]="note.finished"/>
+    </mat-form-field>
+    <br>
+  </div>
+
+  <div>
+    <mat-form-field class="textareaSize" appearance="fill">
+      <mat-label>Note Description</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                [(ngModel)]="note.description"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="20"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="textareaSize" appearance="fill">
+      <mat-label>Comments</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                [(ngModel)]="note.comments"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="20"></textarea>
+    </mat-form-field>
+
+  </div>
+  <br>
 
 
-  <button mat-stroked-button type="button" (click)="delete()">delete</button>
-  <button mat-stroked-button type="button" (click)="update()">save</button>
-  <button mat-stroked-button type="button" (click)="goBack()">go back</button>
+  <button mat-stroked-button type="button" (click)="openDialog('200ms', '200ms')">Delete Note</button>
+  <button mat-stroked-button type="button" (click)="update()">Save and Update</button>
+  <button mat-stroked-button type="button" (click)="goBack()">Go Back</button>
 </div>

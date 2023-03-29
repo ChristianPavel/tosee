@@ -19,6 +19,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import { NotesTableComponent } from './notes-table/notes-table.component';
+import { DialogDeleteConfirm } from './dialog-delete-confirm/dialog-delete-confirm.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { NotesTableComponent } from './notes-table/notes-table.component';
     NoteGeneratorComponent,
     NotesListPendingComponent,
     NotesListFinishedComponent,
-    NotesTableComponent
+    NotesTableComponent,
+    DialogDeleteConfirm,
   ],
   imports: [
     HttpClientModule,

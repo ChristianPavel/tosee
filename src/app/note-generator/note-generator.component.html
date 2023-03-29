@@ -1,25 +1,35 @@
 <div>
-  <label for="new-note-name">Note name:</label>
-  <input id="new-note-name" #noteName/>
-  <label for="new-note-description">Note description:</label>
-  <input id="new-note-description" #noteDescription/>
+
+    <!--<mat-label for="new-note-name">Note name:</mat-label>
+    <input id="new-note-name" #noteName/>-->
+
+  <mat-form-field class="sizeable" appearance="fill">
+    <mat-label >Note name:</mat-label>
+    <input matInput #noteName/>
+  </mat-form-field>
+
 
   <mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
+    <mat-label>Choose a due date</mat-label>
     <input matInput [matDatepicker]="picker"
            [formControl]="this.displayedDate" (dateChange)="prepareSelectedDate($event)">
     <mat-hint>DD/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-
-  <button mat-stroked-button type="button" (click)="clearDueDate()">Clear Date</button>
+  <button mat-stroked-button type="button" class="clearButton" (click)="clearDueDate()">Clear Date</button>
   <br>
 
-
-  <!--<label for="new-note-dueDate">Note dueDate:</label>
-  <input id="new-note-dueDate" #noteDueDate/>-->
-  <button mat-stroked-button type="button" class="add-button" (click)="createNote(noteName.value, noteDescription.value);
+  <mat-form-field class="textareaSize" appearance="fill">
+    <mat-label>Note Description</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              #noteDescription
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="20"></textarea>
+  </mat-form-field>
+  <br>
+  <button class="createButton" mat-stroked-button type="button" (click)="createNote(noteName.value, noteDescription.value);
     noteName.value=''"> <!--clears the input field after usage-->
     Create New Note
   </button>

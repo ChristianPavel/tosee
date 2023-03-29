@@ -1,0 +1,21 @@
+.sizeable {
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+  padding: 30px;
+  margin-right: 30px;
+}
+
+.textareaSize {
+  max-width: 700px;
+  width: 100%;
+  padding: 30px;
+}
+
+.clearButton {
+  height: 56px;
+  margin-bottom: 20px;
+}
+.tuggedIn {
+  margin-left: 30px;
+}

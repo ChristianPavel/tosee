@@ -15,5 +15,5 @@ export interface Note{
 
   dueDate: string;
 
-  finished?: string;
+  finished: string;
 }

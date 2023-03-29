@@ -1,8 +1,12 @@
-<h1>{{title}}</h1>
+<mat-toolbar color="primary">
+  <h1>{{title}}</h1>
+</mat-toolbar>
+<br>
+
 <nav>
-  <a mat-raised-button color="primary" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-  <a mat-raised-button color="primary" routerLink="/notes">All Notes</a>
-  <a mat-raised-button color="primary" routerLink="/notes/create">Create New Note</a>
+  <a class="buttonWrapper" mat-raised-button color="" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a class="buttonWrapper" mat-raised-button color="primary" routerLink="/notes">All Notes</a>
+  <a class="buttonWrapper" mat-raised-button color="primary" routerLink="/notes/create">Create New Note</a>
 </nav>
 <br>
 

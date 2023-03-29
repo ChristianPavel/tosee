@@ -74,6 +74,10 @@ export class NoteService {
     return this.http.get<Note[]>(`${environment.api}/finished`, this.httpOptions);
   }
 
+  getDashboardNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(`${environment.api}/dashboard`, this.httpOptions);
+  }
+
 }
 
 

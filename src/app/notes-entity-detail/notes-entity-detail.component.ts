@@ -7,6 +7,8 @@ import {NoteService} from "../note.service";
 import {FormControl} from "@angular/forms";
 import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material/core";
 import {Observable} from "rxjs";
+import {DialogDeleteConfirm} from "../dialog-delete-confirm/dialog-delete-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -26,7 +28,8 @@ export class NotesEntityDetailComponent implements OnInit {
               @Inject(MAT_DATE_LOCALE) private _locale: string,
               private location: Location,
               private activatedRoute: ActivatedRoute,
-              private noteService: NoteService) {
+              private noteService: NoteService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -103,4 +106,26 @@ export class NotesEntityDetailComponent implements OnInit {
         .subscribe(() => this.goBack());
     }
   }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(DialogDeleteConfirm, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data:{
+        message: 'Are you sure you want to delete?',
+        buttonText: {
+          ok: 'Delete',
+          cancel: 'No'
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.delete();
+      }
+    });
+
+  }
+
 }

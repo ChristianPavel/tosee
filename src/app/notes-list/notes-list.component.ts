@@ -50,20 +50,81 @@ export class NotesListComponent implements OnInit {
     this.noteService.getNotes().subscribe(notes => {
       this.notes = this.sortByCreatedDate(notes);
     });
+
   }
 
   getDueDateSortedNotes(){
     this.noteService.getNotes().subscribe(notes => {
+      console.log(this.notes);
       this.notes = this.sortByDueDate(notes);
+      console.log(this.notes);
     });
   }
 
-  sortByDueDate(notes: Note[]): Note[]{
-    notes.sort((a, b) => {
+  getFinishedSortedNotes(){
+    this.noteService.getNotes().subscribe(notes => {
+      this.notes = this.sortByFinished(notes);
+    });
+  }
 
-        if (a.dueDate < b.dueDate){
+  sortByFinished(notes: Note[]): Note[]{
+    notes.forEach((note) => {
+      if (note.finished === null){
+        note.finished = "";
+      }
+    })
+
+    notes.sort((a, b) => {
+      const first = a.finished;
+      const second = b.finished;
+
+      if (first && second === ""){
+        return 0;
+      }
+      if (first === ""){
+        return 1;
+      }
+      if (second ===""){
+        return -1;
+      }
+
+        if (a.finished < b.finished){
+          return 1;
+        } else if (a.finished > b.finished) {
           return -1;
-        } else if (a.dueDate > b.dueDate) {
+        }
+        return 0;
+      }
+    );
+    return notes;
+  }
+
+  sortByDueDate(notes: Note[]): Note[]{
+
+    notes.forEach((note) => {
+      if (note.dueDate === null){
+        note.dueDate = "";
+      }
+
+    })
+
+    notes.sort((a, b) => {
+        const first = a.dueDate;
+        const second = b.dueDate;
+
+        if (first && second === ""){
+          return 0;
+        }
+        if (first === ""){
+          return 1;
+        }
+        if (second ===""){
+          return -1;
+        }
+
+        if (first < second){
+          return -1;
+        } else if (first > second) {
           return 1;
         }
         return 0;
