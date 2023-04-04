@@ -13,6 +13,6 @@
 
 <app-notes-table
   [notes]="notes"
-  (toggleDone)="changeStatus($event)"
-  (deleteClicked)="delete($event)">
+  (toggleDone)="changeNoteStatus($event)"
+  (deleteClicked)="deleteNote($event)">
 </app-notes-table>

@@ -39,18 +39,18 @@ export class NotesEntityDetailComponent implements OnInit {
 
   getNote(): void {
     const id = Number((this.activatedRoute.snapshot.paramMap.get('id')));
-    this.noteService.getNote(id).subscribe(note => {
+    this.noteService.getSpecificNote(id).subscribe(note => {
       this.note = note
       this.setCalenderDueDate();
     });
   }
 
-  changeStatus() {
+  changeNoteStatus() {
     if (this.note)
       this.note.done = !this.note.done;
   }
 
-  delete(): void {
+  deleteNote(): void {
     if (this.note) {
       const id = Number(this.activatedRoute.snapshot.paramMap.get('id'))
       this.noteService.deleteNote(id).subscribe(() => this.goBack());
@@ -101,7 +101,7 @@ export class NotesEntityDetailComponent implements OnInit {
         this.note.dueDate = dateComponents[2] + "-" + dateComponents[1] + "-" + dateComponents[0];
       }
       const id = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-      this.noteService.update(this.note, id)
+      this.noteService.updateNote(this.note, id)
         .subscribe(() => this.goBack());
     }
   }
@@ -121,7 +121,7 @@ export class NotesEntityDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.delete();
+        this.deleteNote();
       }
     });
 

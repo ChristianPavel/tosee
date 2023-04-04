@@ -44,11 +44,11 @@ export class NotesTableComponent implements OnChanges {
     this.tableData.sort = this.sort;
   }
 
-  changeStatus(note: Note): void {
+  changeNoteStatus(note: Note): void {
     this.toggleDone.emit(note);
   }
 
-  delete(note: Note): void {
+  deleteNote(note: Note): void {
     this.deleteClicked.emit(note);
   }
 
@@ -67,7 +67,7 @@ export class NotesTableComponent implements OnChanges {
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.delete(note);
+        this.deleteNote(note);
       }
     });
   }

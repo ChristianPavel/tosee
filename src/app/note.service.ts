@@ -25,11 +25,11 @@ export class NoteService {
 
   }
 
-   changeStatus(note: Note): Observable<Note> {
+   changeNoteStatus(note: Note): Observable<Note> {
     return this.http.patch<Note>(`${environment.api}`, note.id, this.httpOptions)
    }
   //
-   update(note: Note, id: number): Observable<Note> {
+   updateNote(note: Note, id: number): Observable<Note> {
       const transferNote: TransferNote = {
         id: note.id,
         name: note.name,
@@ -58,7 +58,7 @@ export class NoteService {
     return this.http.get<Note[]>(`${environment.api}?status=`, this.httpOptions);
   }
 
-   getNote(id: number): Observable<Note> {
+   getSpecificNote(id: number): Observable<Note> {
       return this.http.get<Note>(`${environment.api}/${id}`, this.httpOptions)
    }
 

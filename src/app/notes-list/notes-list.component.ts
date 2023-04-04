@@ -20,11 +20,11 @@ export class NotesListComponent implements OnInit {
     this.getNotes();
   }
 
-  changeStatus(note: Note): void {
-    this.noteService.changeStatus(note).subscribe()
+  changeNoteStatus(note: Note): void {
+    this.noteService.changeNoteStatus(note).subscribe()
   }
 
-  delete(note: Note): void {
+  deleteNote(note: Note): void {
     const id = note.id;
     this.noteService.deleteNote(id).subscribe();
     this.notes = this.notes.filter(n => n !== note);
